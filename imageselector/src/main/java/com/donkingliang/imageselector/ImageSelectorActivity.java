@@ -197,7 +197,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_select);
+        setContentView(R.layout.activity_image_select_ass);
         FinishActivityManager.getManager().addActivity(this); //加入管理   后面需要关闭此页面
 
 
