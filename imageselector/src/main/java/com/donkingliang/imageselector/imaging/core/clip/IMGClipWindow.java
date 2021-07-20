@@ -81,7 +81,7 @@ public class IMGClipWindow implements IMGClip {
      */
     public void setClipWinSize(float width, float height) {
         mWin.set(0, 0, width, height);
-        mWinFrame.set(0, 0, width, height * VERTICAL_RATIO);
+        mWinFrame.set(0, 0, width, height * 0.9f);
 
         if (!mFrame.isEmpty()) {
             IMGUtils.center(mWinFrame, mFrame);
@@ -101,7 +101,7 @@ public class IMGClipWindow implements IMGClip {
      */
     private void reset(float clipWidth, float clipHeight) {
         setResetting(true);
-        mFrame.set(0, 0, clipWidth, clipHeight);
+        mFrame.set(0, 0, clipWidth, clipWidth);
         IMGUtils.fitCenter(mWinFrame, mFrame, CLIP_MARGIN);
         mTargetFrame.set(mFrame);
     }

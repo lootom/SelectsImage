@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.donkingliang.imageselector.ImageSelectorActivity;
@@ -38,10 +40,19 @@ public class IMGEditActivity extends IMGEditBaseActivity {
 
     long lastTime = 0;
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            onModeClick(IMGMode.CLIP);
+        }
+    };
+
     @Override
     public void onCreated() {
-
+        handler.sendEmptyMessageDelayed(0,1000);
     }
+
 
     @Override
     public Bitmap getBitmap() {
@@ -163,9 +174,11 @@ public class IMGEditActivity extends IMGEditBaseActivity {
         }
     }
 
+
     @Override
     public void onCancelClipClick() {
         mImgView.cancelClip();
+        onCancelClick();
         setOpDisplay(mImgView.getMode() == IMGMode.CLIP ? OP_CLIP : OP_NORMAL);
     }
 
@@ -173,6 +186,7 @@ public class IMGEditActivity extends IMGEditBaseActivity {
     public void onDoneClipClick() {
         mImgView.doClip();
         setOpDisplay(mImgView.getMode() == IMGMode.CLIP ? OP_CLIP : OP_NORMAL);
+        onDoneClick();
     }
 
     @Override
