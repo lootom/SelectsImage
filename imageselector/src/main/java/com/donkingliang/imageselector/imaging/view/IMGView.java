@@ -356,7 +356,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                postDelayed(this, 1200);
+                postDelayed(this, 100);
                 break;
         }
         return onTouch(event);
@@ -445,7 +445,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
     public void run() {
         // 稳定触发
         if (!onSteady()) {
-            postDelayed(this, 500);
+            postDelayed(this, 100);
         }
     }
 

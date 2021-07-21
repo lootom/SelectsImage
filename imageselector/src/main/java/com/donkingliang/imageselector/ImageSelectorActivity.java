@@ -556,7 +556,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
             tvTime.setText(time);
             showTime();
             mHideHandler.removeCallbacks(mHide);
-            mHideHandler.postDelayed(mHide, 1500);
+            mHideHandler.postDelayed(mHide, 1000);
 
         }
     }
