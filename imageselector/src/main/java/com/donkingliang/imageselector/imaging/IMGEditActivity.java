@@ -30,9 +30,9 @@ import de.greenrobot.event.EventBus;
 
 public class IMGEditActivity extends IMGEditBaseActivity {
 
-    private static final int MAX_WIDTH = 1024;
+    private static final int MAX_WIDTH = 9000;
 
-    private static final int MAX_HEIGHT = 1024;
+    private static final int MAX_HEIGHT = 9000;
 
     public static final String EXTRA_IMAGE_URI = "IMAGE_URI";
 
