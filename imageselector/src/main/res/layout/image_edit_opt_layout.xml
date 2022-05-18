@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#BB000000"
-        android:visibility="gone"
         android:padding="12dp">
 
         <TextView
@@ -57,7 +56,6 @@
     <LinearLayout
         android:id="@+id/layout_op_sub"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -135,7 +133,6 @@
         android:id="@+id/rg_modes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:background="@drawable/image_bg_bottom"
         android:gravity="center"
         android:orientation="horizontal"

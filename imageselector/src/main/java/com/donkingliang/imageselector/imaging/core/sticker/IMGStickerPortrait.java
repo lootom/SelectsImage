@@ -26,9 +26,9 @@ public interface IMGStickerPortrait {
 
     void onSticker(Canvas canvas);
 
-    void registerCallback(IMGSticker.Callback callback);
+    void registerCallback(Callback callback);
 
-    void unregisterCallback(IMGSticker.Callback callback);
+    void unregisterCallback(Callback callback);
 
     interface Callback {
 

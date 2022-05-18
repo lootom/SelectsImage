@@ -1,5 +1,6 @@
 package com.donkingliang.imageselector.entry;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,15 +12,26 @@ import androidx.annotation.NonNull;
 public class Image implements Parcelable,Comparable<Image>{
 
     private String path;
+    private Uri uri;
     private long time;
     private String name;
     private String mimeType;
 
-    public Image(String path, long time, String name, String mimeType) {
+    //加上 Uri 适配 android Q
+    public Image(Uri uri,String path, long time, String name, String mimeType) {
+        this.uri = uri;
         this.path = path;
         this.time = time;
         this.name = name;
         this.mimeType = mimeType;
+    }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
     public String getPath() {
@@ -89,7 +101,7 @@ public class Image implements Parcelable,Comparable<Image>{
         this.mimeType = in.readString();
     }
 
-    public static final Parcelable.Creator<Image> CREATOR = new Parcelable.Creator<Image>() {
+    public static final Creator<Image> CREATOR = new Creator<Image>() {
         @Override
         public Image createFromParcel(Parcel source) {
             return new Image(source);
