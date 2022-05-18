@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="imageselector/src/main/res/layout/activity_image_select_ass.xml" value="0.2351851851851852" />
+        <entry key="imageselector/src/main/res/layout/adapter_folder.xml" value="0.2578125" />
+        <entry key="imageselector/src/main/res/layout/image_edit_activity.xml" value="0.2351851851851852" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>
