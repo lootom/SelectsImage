@@ -26,6 +26,15 @@ public class Image implements Parcelable,Comparable<Image>{
         this.mimeType = mimeType;
     }
 
+    //加上 Uri 适配 android Q
+    public Image(String path, long time, String name, String mimeType) {
+        this.uri = Uri.parse(path);
+        this.path = path;
+        this.time = time;
+        this.name = name;
+        this.mimeType = mimeType;
+    }
+
     public Uri getUri() {
         return uri;
     }
