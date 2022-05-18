@@ -361,9 +361,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
         // 判断屏幕方向
         Configuration configuration = getResources().getConfiguration();
         if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mLayoutManager = new GridLayoutManager(this, 3);
+            mLayoutManager = new GridLayoutManager(this, 4);
         } else {
-            mLayoutManager = new GridLayoutManager(this, 5);
+            mLayoutManager = new GridLayoutManager(this, 4);
         }
 
         rvImage.setLayoutManager(mLayoutManager);
