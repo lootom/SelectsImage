@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -67,9 +69,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
     private TextView tvTime;
     private TextView tvFolderName;
     private TextView tvConfirm;
-    private TextView tvPreview;
+//    private TextView tvPreview;
     private FrameLayout btnConfirm;
-    private FrameLayout btnPreview;
+//    private FrameLayout btnPreview;
     private RecyclerView rvImage;
     private RecyclerView rvFolder;
     private View masking;
@@ -108,9 +110,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
     // 用于接收从外面传进来的已选择的图片列表。当用户原来已经有选择过图片，现在重新打开选择器，允许用
     // 户把先前选过的图片传进来，并把这些图片默认为选中状态。
     private ArrayList<String> mSelectedImages;
-    private FrameLayout diy_lable;
-    private CheckBox selectOriginalImage; // 是否选择原图
-    private TextView diyLableText;
+//    private FrameLayout diy_lable;
+//    private CheckBox selectOriginalImage; // 是否选择原图
+//    private TextView diyLableText;
     private boolean onlyImage;
 
     /**
@@ -158,6 +160,29 @@ public class ImageSelectorActivity extends AppCompatActivity {
         fragment.startActivityForResult(intent, requestCode);
     }
 
+
+    /**
+     * 启动图片选择器
+     *
+     * @param fragment
+     * @param requestCode
+     * @param isSingle       是否单选
+     * @param onlyImage      是否只要图片（不要视频）
+     * @param isViewImage    是否点击放大图片查看
+     * @param useCamera      是否使用拍照功能
+     * @param maxSelectCount 图片的最大选择数量，小于等于0时，不限数量，isSingle为false时才有用。
+     * @param isTagging      是否使用标注
+     * @param selected       接收从外面传进来的已选择的图片列表。当用户原来已经有选择过图片，现在重新打开
+     *                       选择器，允许用户把先前选过的图片传进来，并把这些图片默认为选中状态。
+     */
+    public static void openActivity(Activity activity, int requestCode,
+                                    boolean isSingle,boolean onlyImage, boolean isViewImage, boolean useCamera,
+                                    int maxSelectCount,boolean isTagging, ArrayList<String> selected,int toClip) {
+        Intent intent = new Intent(activity, ImageSelectorActivity.class);
+        intent.putExtras(dataPackages(isSingle,onlyImage,isViewImage, useCamera, maxSelectCount, isTagging,selected,toClip));
+        activity.startActivityForResult(intent, requestCode);
+    }
+
     /**
      * 启动图片选择器
      *
@@ -194,6 +219,20 @@ public class ImageSelectorActivity extends AppCompatActivity {
         return bundle;
     }
 
+    public static Bundle dataPackages(boolean isSingle,boolean onlyImage, boolean isViewImage, boolean useCamera,
+                                      int maxSelectCount,boolean isTagging, ArrayList<String> selected,int toClip) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ImageSelector.IS_SINGLE, isSingle);
+        bundle.putBoolean(ImageSelector.IS_VIEW_IMAGE, isViewImage);
+        bundle.putBoolean(ImageSelector.USE_CAMERA, useCamera);
+        bundle.putBoolean(ImageSelector.IS_TAGGING, isTagging);
+        bundle.putBoolean(ImageSelector.ONLY_IMAGE, onlyImage);
+        bundle.putInt(ImageSelector.MAX_SELECT_COUNT, maxSelectCount);
+        bundle.putInt("toClip", toClip);
+        bundle.putStringArrayList(ImageSelector.SELECTED, selected);
+        return bundle;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +242,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mMaxCount = intent.getIntExtra(ImageSelector.MAX_SELECT_COUNT, 0);
+        toClip = intent.getIntExtra("toClip", 0);
         isSingle = intent.getBooleanExtra(ImageSelector.IS_SINGLE, false);
         isViewImage = intent.getBooleanExtra(ImageSelector.IS_VIEW_IMAGE, true);
         useCamera = intent.getBooleanExtra(ImageSelector.USE_CAMERA, true);
@@ -234,37 +274,37 @@ public class ImageSelectorActivity extends AppCompatActivity {
         rvImage = (RecyclerView) findViewById(R.id.rv_image);
         rvFolder = (RecyclerView) findViewById(R.id.rv_folder);
         tvConfirm = (TextView) findViewById(R.id.tv_confirm);
-        tvPreview = (TextView) findViewById(R.id.tv_preview);
+//        tvPreview = (TextView) findViewById(R.id.tv_preview);
         btnConfirm = (FrameLayout) findViewById(R.id.btn_confirm);
-        btnPreview = (FrameLayout) findViewById(R.id.btn_preview);
-        diy_lable = (FrameLayout) findViewById(R.id.diy_lable);
-        selectOriginalImage = (CheckBox) findViewById(R.id.selectOriginalImage);
+//        btnPreview = (FrameLayout) findViewById(R.id.btn_preview);
+//        diy_lable = (FrameLayout) findViewById(R.id.diy_lable);
+//        selectOriginalImage = (CheckBox) findViewById(R.id.selectOriginalImage);
         tvFolderName = (TextView) findViewById(R.id.tv_folder_name);
-        diyLableText = (TextView) findViewById(R.id.diy_lable_text);
+//        diyLableText = (TextView) findViewById(R.id.diy_lable_text);
         tvTime = (TextView) findViewById(R.id.tv_time);
         masking = findViewById(R.id.masking);
 
         //不使用标注
-        if (!isTagging){
-            diy_lable.setVisibility(View.GONE);
-            selectOriginalImage.setVisibility(View.GONE);
-        }
+//        if (!isTagging){
+//            diy_lable.setVisibility(View.GONE);
+//            selectOriginalImage.setVisibility(View.GONE);
+//        }
 
     }
 
     private void initListener() {
-        selectOriginalImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-//                if (isChecked) {
-////                    Toast.makeText(ImageSelectorActivity.this, "选原图", Toast.LENGTH_SHORT).show();
-//                } else {
-////                    Toast.makeText(ImageSelectorActivity.this, "不选原图", Toast.LENGTH_SHORT).show();
-//                }
-                isFull = isChecked;
-            }
-        });
+//        selectOriginalImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+////                if (isChecked) {
+//////                    Toast.makeText(ImageSelectorActivity.this, "选原图", Toast.LENGTH_SHORT).show();
+////                } else {
+//////                    Toast.makeText(ImageSelectorActivity.this, "不选原图", Toast.LENGTH_SHORT).show();
+////                }
+//                isFull = isChecked;
+//            }
+//        });
 
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,14 +313,14 @@ public class ImageSelectorActivity extends AppCompatActivity {
             }
         });
 
-        btnPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<Image> images = new ArrayList<>();
-                images.addAll(mAdapter.getSelectImages());
-                toPreviewActivity(images, 0);
-            }
-        });
+//        btnPreview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ArrayList<Image> images = new ArrayList<>();
+//                images.addAll(mAdapter.getSelectImages());
+//                toPreviewActivity(images, 0);
+//            }
+//        });
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,12 +329,12 @@ public class ImageSelectorActivity extends AppCompatActivity {
             }
         });
 
-        diy_lable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lable();
-            }
-        });
+//        diy_lable.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                lable();
+//            }
+//        });
         findViewById(R.id.btn_folder).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,6 +405,9 @@ public class ImageSelectorActivity extends AppCompatActivity {
         } else {
             mLayoutManager = new GridLayoutManager(this, 4);
         }
+//        mLayoutManager.setOrientation(RecyclerView.VERTICAL);
+//        mLayoutManager.setReverseLayout(true);
+//        mLayoutManager.setStackFromEnd(true);
 
         rvImage.setLayoutManager(mLayoutManager);
         mAdapter = new ImageAdapter(this, mMaxCount, isSingle, isViewImage);
@@ -433,37 +476,40 @@ public class ImageSelectorActivity extends AppCompatActivity {
         if (folder != null && mAdapter != null && !folder.equals(mFolder)) {
             mFolder = folder;
             tvFolderName.setText(folder.getName());
-            rvImage.scrollToPosition(0);
-            mAdapter.refresh(folder.getImages(), folder.isUseCamera());
+//            rvImage.scrollToPosition(0);
+            ArrayList<Image> images = folder.getImages();
+            Collections.reverse(images);
+            mAdapter.refresh(images, folder.isUseCamera());
+            rvImage.getLayoutManager().scrollToPosition(images.size()-1);
         }
     }
 
     private void setSelectImageCount(int count){
         if (count == 0) {
             btnConfirm.setEnabled(false);
-            btnPreview.setEnabled(false);
-            diy_lable.setEnabled(false);
-            tvConfirm.setText("确定(" + count + "/" + mMaxCount + ")");
-            tvPreview.setText("预览");
-            selectOriginalImage.setText("原图");
+//            btnPreview.setEnabled(false);
+//            diy_lable.setEnabled(false);
+            tvConfirm.setText("完成(" + count  + ")");
+//            tvPreview.setText("预览");
+//            selectOriginalImage.setText("原图");
             if (isSingle) {
-                tvConfirm.setText("确定(" + count + "/" + 1 + ")");
+                tvConfirm.setText("完成(" + count  + ")");
             }
         } else {
-            if (count==1){
-                diy_lable.setEnabled(true);
-            }else{
-                diy_lable.setEnabled(false);
-            }
+//            if (count==1){
+//                diy_lable.setEnabled(true);
+//            }else{
+//                diy_lable.setEnabled(false);
+//            }
             btnConfirm.setEnabled(true);
-            btnPreview.setEnabled(true);
-            tvPreview.setText("预览(" + count + ")");
+//            btnPreview.setEnabled(true);
+//            tvPreview.setText("预览(" + count + ")");
             if (isSingle) {
-                tvConfirm.setText("确定(" + count + "/" + 1 + ")");
+                tvConfirm.setText("完成(" + count  + ")");
             } else if (mMaxCount > 0) {
-                tvConfirm.setText("确定(" + count + "/" + mMaxCount + ")");
+                tvConfirm.setText("完成(" + count  + ")");
             } else {
-                tvConfirm.setText("确定(" + count + ")");
+                tvConfirm.setText("完成(" + count + ")");
             }
             if (mAdapter!=null&&mAdapter.getSelectImages().size()>0){
                 long tolSize = 0;
@@ -474,13 +520,13 @@ public class ImageSelectorActivity extends AppCompatActivity {
                     int dotIndex = path.lastIndexOf(".");
                     String end = path.substring(dotIndex, path.length()).toLowerCase();
                     // 是视频格式 不显示【标注】；
-                     if(end.equals(".avi") || end.equals(".mov") || end.equals(".FLV") || end.equals(".3GP") || end.equals(".mp4") || end.equals(".rmvb") || end.equals(".rm")) {
-                         diy_lable.setEnabled(false);
-                     }
+//                     if(end.equals(".avi") || end.equals(".mov") || end.equals(".FLV") || end.equals(".3GP") || end.equals(".mp4") || end.equals(".rmvb") || end.equals(".rm")) {
+//                         diy_lable.setEnabled(false);
+//                     }
                     File file = new File(path);
                     tolSize +=  file.length();
                 }
-                selectOriginalImage.setText("原图 ("+FormetFileSize(tolSize)+")");
+//                selectOriginalImage.setText("原图 ("+FormetFileSize(tolSize)+")");
             }
         }
     }
@@ -565,20 +611,78 @@ public class ImageSelectorActivity extends AppCompatActivity {
         return mLayoutManager.findFirstVisibleItemPosition();
     }
 
+    private Uri coverUri;
+    private int toClip;
     private void confirm() {
         if (mAdapter == null) {
             return;
         }
         //因为图片的实体类是Image，而我们返回的是String数组，所以要进行转换。
         ArrayList<Image> selectImages = mAdapter.getSelectImages();
-        ArrayList<String> images = new ArrayList<>();
-        for (Image image : selectImages) {
-            images.add(image.getPath());
+        if(toClip == 0){
+            ArrayList<String> images = new ArrayList<>();
+            for (Image image : selectImages) {
+                images.add(image.getPath());
+            }
+            //点击确定，把选中的图片通过Intent传给上一个Activity。
+            setResult(images, false,isFull);
+            finish();
+
+        }else  if(toClip == 1) {//去裁剪
+            if (null != coverUri) {
+                coverUri = null;
+            }
+            coverUri = createCoverUri(ImageSelectorActivity.this, ""+System.currentTimeMillis());
+            Intent intent_p = new Intent(ImageSelectorActivity.this, IMGEditActivity.class);
+            try {
+                Uri uri;
+//                if (SdkVersionUtils.checkedAndroid_Q()) {
+////                       uri =   Uri.parse(images.get(lastPostion).getPath());
+//                    uri = Uri.fromFile(new File(PictureFileUtils.getPath(PictureSelectorActivity.this, Uri.parse(images.get(0).getPath()))));
+//                } else {
+                    uri = Uri.fromFile(new File(selectImages.get(0).getPath()));
+//                }
+                intent_p.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, uri);
+                intent_p.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, coverUri.getPath());
+                startActivity(intent_p);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        //点击确定，把选中的图片通过Intent传给上一个Activity。
-        setResult(images, false,isFull);
-        finish();
     }
+
+    public static Uri createCoverUri(Context context, String type) {
+        String filename = "comss" + type + ".jpg";
+
+        File sdcardDir = context.getExternalFilesDir(null);
+        if (sdcardDir == null) {
+
+            return null;
+        }
+        String path = sdcardDir + "/mxxq";
+
+        File outputImage = new File(path, filename);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(ImproveInformationActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                    TCConstants.WRITE_PERMISSION_REQ_CODE);
+            return null;
+        }
+        try {
+            File pathFile = new File(path);
+            if (!pathFile.exists()) {
+                pathFile.mkdirs();
+            }
+            if (outputImage.exists()) {
+                outputImage.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "失败", Toast.LENGTH_SHORT).show();
+        }
+        return Uri.fromFile(outputImage);
+    }
+
 
     private void setResult(ArrayList<String> images, boolean isCameraImage,boolean isFull) {
         Intent intent = new Intent();

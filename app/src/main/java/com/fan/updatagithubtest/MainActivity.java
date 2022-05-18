@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 ImageSelector.builder()
-                        .useCamera(true) // 设置是否使用拍照
+                        .useCamera(false) // 设置是否使用拍照
 //                        .setCrop(true)  // 设置是否使用图片剪切功能。
 //                        .setSingle(false)  //设置是否单选
                         .onlyImage(false)  //只要图片（不要视频）

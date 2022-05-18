@@ -6,16 +6,17 @@
     <RelativeLayout
         android:id="@+id/rl_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#373c3d"
+        android:layout_height="55dp"
+        android:elevation="1dp"
+        android:background="#B7000000"
         android:orientation="vertical">
 
         <FrameLayout
             android:id="@+id/btn_back"
             android:layout_width="80dp"
-            android:paddingLeft="3dp"
             android:layout_height="match_parent"
-            android:foreground="@drawable/btn_back_selector">
+            android:foreground="@drawable/btn_back_selector"
+            android:paddingLeft="3dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -27,7 +28,6 @@
 
         </FrameLayout>
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,39 +38,13 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-        <FrameLayout
-            android:id="@+id/btn_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:foreground="@drawable/btn_foreground_selector">
-
-            <TextView
-                android:id="@+id/tv_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_green_shape"
-                android:gravity="center"
-                android:minWidth="50dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="5dp"
-                android:text="发送"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-        </FrameLayout>
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
-            android:text="图片和视频"
+            android:text="选择照片"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -80,12 +54,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_bottom_bar"
-        android:layout_below="@+id/rl_top_bar"
-        android:background="#272828"
+        android:background="#000000"
         android:fadingEdge="none"
         android:fadingEdgeLength="0dp"
         android:overScrollMode="never"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <TextView
         android:id="@+id/tv_time"
@@ -116,8 +89,8 @@
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/rv_image"
         android:layout_alignTop="@+id/rv_image"
-        android:layout_marginTop="80dp"
-        android:background="@android:color/white"
+        android:layout_marginTop="180dp"
+        android:background="#ffffff"
         android:fadingEdge="none"
         android:fadingEdgeLength="0dp"
         android:overScrollMode="never"
@@ -128,9 +101,10 @@
     <RelativeLayout
         android:id="@+id/rl_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:background="#373c3d">
+        android:background="#000000">
+
         <FrameLayout
             android:id="@+id/btn_folder"
             android:layout_width="wrap_content"
@@ -145,13 +119,6 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <TextView
-                    android:id="@+id/tv_folder_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp" />
-
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -159,70 +126,102 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv_folder_name"
                     android:src="@drawable/text_indicator" />
+
+                <TextView
+                    android:id="@+id/tv_folder_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
             </RelativeLayout>
         </FrameLayout>
 
 
-        <CheckBox
-            android:id="@+id/selectOriginalImage"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/btn_folder"
-            android:text="原图"
-            android:textSize="14sp"
-            android:textColor="@color/image_color_accent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--        <CheckBox-->
+        <!--            android:id="@+id/selectOriginalImage"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="15dp"-->
+        <!--            android:layout_toRightOf="@+id/btn_folder"-->
+        <!--            android:text="原图"-->
+        <!--            android:textColor="@color/image_color_accent"-->
+        <!--            android:textSize="14sp" />-->
+
+
+        <!--        <FrameLayout-->
+        <!--            android:id="@+id/diy_lable"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_toLeftOf="@+id/btn_preview"-->
+        <!--            android:foreground="@drawable/btn_foreground_selector"-->
+        <!--            >-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/diy_lable_text"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:gravity="center"-->
+        <!--                android:minWidth="70dp"-->
+        <!--                android:paddingLeft="6dp"-->
+        <!--                android:paddingRight="6dp"-->
+        <!--                android:text="@string/label"-->
+        <!--                android:textColor="@android:color/white"-->
+        <!--                android:textSize="16sp" />-->
+
+        <!--        </FrameLayout>-->
+
+
+        <!--        <FrameLayout-->
+        <!--            android:id="@+id/btn_preview"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:foreground="@drawable/btn_foreground_selector">-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/tv_preview"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:gravity="center"-->
+        <!--                android:minWidth="65dp"-->
+        <!--                android:paddingLeft="6dp"-->
+        <!--                android:paddingRight="6dp"-->
+        <!--                android:text="@string/preview"-->
+        <!--                android:textColor="@android:color/white"-->
+        <!--                android:textSize="16sp" />-->
+
+        <!--        </FrameLayout>-->
 
 
         <FrameLayout
-            android:id="@+id/diy_lable"
+            android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/btn_preview"
-            android:foreground="@drawable/btn_foreground_selector"
-            >
-            <TextView
-                android:id="@+id/diy_lable_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:minWidth="70dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:text="@string/label"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:id="@+id/btn_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:foreground="@drawable/btn_foreground_selector">
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp">
 
             <TextView
-                android:id="@+id/tv_preview"
+                android:id="@+id/tv_confirm"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_order_text"
                 android:gravity="center"
-                android:minWidth="65dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:text="@string/preview"
+                android:minWidth="50dp"
+                android:paddingLeft="13dp"
+                android:paddingTop="6dp"
+                android:paddingRight="13dp"
+                android:paddingBottom="6dp"
+                android:text="完成"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </FrameLayout>
-
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_toLeftOf="@+id/btn_preview"
             android:background="@android:color/black" />
 

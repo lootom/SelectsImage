@@ -163,7 +163,9 @@ public class ImageSelector {
          */
         public void start(Activity activity, int requestCode) {
             if (isCrop) {
-                ClipImageActivity.openActivity(activity, requestCode, isViewImage, useCamera, selected);
+//                ClipImageActivity.openActivity(activity, requestCode, isViewImage, useCamera, selected);
+                ImageSelectorActivity.openActivity(activity, requestCode,onlyImage,isSingle, isViewImage,
+                        useCamera, maxSelectCount,isTagging,selected,1);
             } else {
                 ImageSelectorActivity.openActivity(activity, requestCode,onlyImage,isSingle, isViewImage,
                         useCamera, maxSelectCount,isTagging,selected);
